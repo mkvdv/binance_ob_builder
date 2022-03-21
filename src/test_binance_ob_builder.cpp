@@ -137,7 +137,11 @@ namespace
 
         void pretty_print(const size_t depth = 10)
         {
-            std::system("clear");
+            int rc = std::system("clear");
+            if (rc)
+            {
+                std::cerr << "system(\"clear\") failed" << std::endl;
+            }
             std::cout << "\nlast_final_update_id: " << last_final_update_id_.value_or(0)
                       << "\nmsg_output_time:      " << msg_output_time_
                       << "\ntransaction_time:     " << transaction_time_ << std::endl;
@@ -413,7 +417,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]]  char** argv)
     const char* https_host = "fapi.binance.com";
     const char* https_port = "443";
     const char* https_target = "/fapi/v1/depth?symbol=BTCUSDT&limit=1000";
-    const auto wait_ws_interval = std::chrono::milliseconds (250);
+    const auto wait_ws_interval = std::chrono::milliseconds(250);
 
     // The io_context is required for all I/O
     net::io_context ioc;
